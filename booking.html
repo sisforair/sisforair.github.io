@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Halaman Booking, M Rayhan Brameswara (05211840000128)
+Sumber Jquery: Buku jQuery Recipes_ A Problem-Solution Approach chapter 4
+Sumber date picker: https://www.w3resource.com/javascript/form/phone-no-validation.php
+Sumber phone number: https://www.tutorialspoint.com/jqueryui/jqueryui_datepicker.htm -->
+
+<head>
+  <title>sisforair.com</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+    integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!--Date Picker-->
+<link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css"
+rel = "stylesheet">
+<script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
+<script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<!--Tanggal berangkat-->
+<script>
+    $(function() {
+       $( "#datepicker-13" ).datepicker();
+       $( "#datepicker-13" ).datepicker("show");
+    });
+ </script>
+ <!--Tanggal pulang-->
+ <script>
+    $(function() {
+       $( "#datepicker-14" ).datepicker();
+       $( "#datepicker-14" ).datepicker("show");
+    });
+ </script>
+
+
+  <style>
+    .submit {
+        margin-left: 125px;
+        margin-top: 10px;
+    }
+
+    .label {
+        float: left;
+        width: 120px;
+    }
+
+    .infobox {
+        width: 120px;
+    }
+
+    .error {
+        color: red;
+        padding-left: 10px;
+    }
+
+    div {
+        padding: 5px;
+    }
+
+    .chkb {
+        margin-left: 125px;
+        margin-top: 10px;
+    }
+
+    .radiobtn {
+        margin-left: 125px;
+        margin-top: 10px;
+    }
+
+    .inputs {
+        background-color: rgb(255, 255, 255)
+    }
+
+    fieldset {
+        border: 1px solid black;
+    }
+
+    legend {
+        border: 1px solid black;
+        background-color: #99ccff;
+        color: black;
+        font-weight: bold;
+        padding: .5cm
+    }
+</style>
+
+<body>
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-info">
+    <div class="container">
+        <a class="navbar-brand text-light" href="index.html">HOME</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link active font-weight-bold text-light" href="about_us.html">About Us<span
+                        class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link active font-weight-bold text-light" href="product.html">Product<span
+                        class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link active font-weight-bold text-light" href="contact_us.html">Contact US<span
+                        class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link active font-weight-bold text-light" href="booking.html">Booking<span
+                        class="sr-only">(current)</span></a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+    <div class="jumbotron text-center mt-2" style="margin-bottom:0; background-color: #ccffff;">
+        <div class="container mt-3"></div>
+        <h1 class="display-4">SISFOR AIR</h1>
+        <h5 class="lead">Fly Anywhere</h5>
+      </div>
+
+<script>
+    $(document).ready(function () {
+        $('.error').hide();
+        $('.userid').focus(function () {
+            $(this).addClass('inputs');
+        });
+        $('.password').focus(function () {
+            $(this).addClass('inputs');
+        });
+        $('.emailadd').focus(function () {
+            $(this).addClass('inputs');
+        });
+        $('.phone').focus(function () {
+                $(this).addClass('inputs');
+        });
+        $('.number').focus(function () {
+                $(this).addClass('inputs');
+        });
+        $('.fooderror').addClass('error');
+        $('.fooderror').hide();
+        $('.payerror').addClass('error');
+        $('.payerror').hide();
+        $('.submit').click(function (event) {
+            var data = $('.userid').val();
+            if (validate_userid(data)) {
+                $('.userid').next().hide();
+            }
+            else {
+                $('.userid').next().show();
+            }
+            data = $('.password').val();
+            var len = data.length;
+            if (len < 1) {
+                $('.password').next().show();
+            }
+            else {
+                $('.password').next().hide();
+            }
+            data = $('.emailadd').val();
+            if (valid_email(data)) {
+                $('.emailadd').next().hide();
+            }
+            else {
+                $('.emailadd').next().show();
+            }
+            data = $('.phone').val();
+                if (validate_phoneno(data)) {
+                    $('.phone').next().hide();
+                }
+                else {
+                    $('.phone').next().show();
+                    event.preventDefault();
+            }
+            data = $('.number').val();
+                var len = data.length;
+                var c;
+                for (var i = 0; i < len; i++) {
+                    c = data.charAt(i).charCodeAt(0);
+                    if (c < 49 || c > 57) {
+                        $('.number').next().show();
+                        event.preventDefault();
+                        break;
+                    }
+                    else {
+                        $('.number').next().hide();
+                    }
+                }
+            var count = 0;
+            $('div').find(':checkbox').each(function () {
+                if ($(this).is(':checked')) {
+                    count++;
+                }
+            });
+            //---------------
+            if (count == 0) {
+                $('.fooderror').css({ 'margin-left': 250 }).show();
+            }
+            else {
+                $('.fooderror').hide();
+            }
+            count = 0;
+            $('div').find(':radio').each(function () {
+                if ($(this).is(':checked')) {
+                    count++;
+                }
+            });
+            //---------------
+            if (count == 0) {
+                $('.payerror').css({ 'margin-left': 250 }).show();
+            }
+            else {
+                $('.payerror').hide();
+            }
+            count = $('select option:selected').val();
+            if (count == 0) {
+                $('.infobox').next().show();
+            }
+            else {
+                $('.infobox').next().hide();
+            }
+            event.preventDefault();
+        });
+    });
+    function valid_email(email) {
+        var pattern = new RegExp(/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]+$/);
+        return pattern.test(email);
+    }
+    function validate_userid(uid) {
+        var pattern = new RegExp(/^[a-z]+$/);
+        return pattern.test(uid);
+    }
+    function validate_phoneno(ph) {
+            var pattern = new RegExp(/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/);
+            return pattern.test(ph);
+    }
+</script>
+<br>
+
+<div class="container" style="margin-top:30px">
+  <div class="row">
+    <div class="col-sm-12">
+
+<h2>Booking Form</h2>
+<form>
+    <fieldset>
+        <legend>Input Data</legend>
+        <div id="u"> <span class="label"> Nama </span><input type="text" class="userid" name="userid" /><span
+                class="error"> Nama belum terisi (isikan dengan huruf)</span></div>
+        <div><span class="label"> Email </span><input type="text" class="emailadd" name="emailid" /><span
+                class="error"> Alamat Email tidak valid (cth:abc@xyz.com)</span></div>
+        <div id="p"><span class="label"> Password</span><input type="password" class="password"
+                name="password" /><span class="error"> Password belum terisi</span></div>
+        <div><span class="label">Phone number </span><input type="text" class="phone"
+                name="phone" /><span class="error"> No Telp tidak valid (cth:xxx-xxx-xxxx)
+                </span></div>
+        <div><span class="label">Jumlah Tiket </span><input type="number" class="number" name="number" /><span
+                    class="error">Jumlah tiket minimal 1</span></div>
+    </fieldset>
+    <fieldset>
+        <div><span class="label">Tanggal Penerbangan</span><br><br>
+            <label for="datepicker">Tanggal Pergi</label>
+                <input type = "text" id = "datepicker-13"> 
+            <label for="datepicker">Tanggal Pulang</label>
+                <input type = "text" id = "datepicker-14">
+            <span class="error">Pilih tanggal penerbangan</span></div>
+    </fieldset>
+    <fieldset>
+        <div><span class="label">Berangkat</span><select id="country" class="infobox">
+                <option value="0">Pilih Keberangkatan</option>
+                <option value="USA">CGK (Soekarno-Hatta)</option>
+                <option value="United Kingdom">JOG (Adi Sucipto)</option>
+                <option value="India">DPS (Ngurah Rai)</option>
+                <option value="India">PDG (Minangkabau)</option>
+                <option value="India">LOP (Lombok)</option>
+                <option value="India">SUB (Juanda)</option>
+            </select>
+            <span class="error"> Pilih keberangkatan penerbangan</span>
+    </fieldset>
+    <fieldset>
+        <div><span class="label">Tujuan</span><select id="country" class="infobox">
+                <option value="0">Pilih Tujuan</option>
+                <option value="USA">CGK (Soekarno-Hatta)</option>
+                <option value="United Kingdom">JOG (Adi Sucipto)</option>
+                <option value="India">DPS (Ngurah Rai)</option>
+                <option value="India">PDG (Minangkabau)</option>
+                <option value="India">LOP (Lombok)</option>
+                <option value="India">SUB (Juanda)</option>
+            </select>
+            <span class="error"> Pilih tujuan penerbangan</span>
+    </fieldset>
+    <fieldset>
+        <div><span class="label">Seat Class</span><select id="country" class="infobox">
+                <option value="0">Pilih Class</option>
+                <option value="USA">Economy Class</option>
+                <option value="United Kingdom">Business Class</option>
+                <option value="India">First Class</option>
+            </select>
+            <span class="error"> Pilih seat class</span>
+    </fieldset>
+
+    <fieldset>
+        <div><span class="label">Payment Method</span><br><br>
+            <input type="radio" name="paymode" class="radiobtn" value="ANZ Grindlay Card">Credit
+            Card<br>
+            <input type="radio" name="paymode" class="radiobtn" value="Visa Card">M Banking<br>
+            <input type="radio" name="paymode" class="radiobtn" value="Visa Card">E Banking<br>
+            <input type="radio" name="paymode" class="radiobtn" value="Visa Card">SMS Banking<br>
+            <input type="radio" name="paymode" class="radiobtn" value="Visa Card">Transfer ATM<br>
+            <input type="radio" name="paymode" class="radiobtn" value="Visa Card">Debit<br>
+            <span class="error" class="payerror">Pilih metode pembayaran</span></div>
+    </fieldset>
+    </div>
+    <input class="submit" type="submit" value="Submit Data">
+</form>
+  </div>
+</div>
+</div>
+
+</div>
+<br>
+<br>
+<div class="jumbotron text-center" style="margin-bottom:0">
+  <p>Contact</p>
+  <br>
+  <p>
+    <i class="fab fa-twitter" style="float: left;">sisfor_air</i>
+      <i class="fab fa-instagram" style="float: right;"> sisfor_air</i>
+      <i class="far fa-envelope"> sisforair@gmail.com</i>
+  </p>
+</div>
+</body>
+</html>
+</body>
+
+</head>
+</html>
